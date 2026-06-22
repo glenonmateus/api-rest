@@ -1,5 +1,5 @@
 import express from "express";
-import home from "./src/routes/home";
+import home from "./src/routes/home.js";
 
 class App {
   constructor() {
