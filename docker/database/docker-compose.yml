@@ -1,0 +1,11 @@
+services:
+  database:
+    image: mariadb:13.0.1-rc
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-password}
+      MARIADB_DATABASE: ${DATABASE:-database}
+      MARIADB_USER: ${DATABASE_USERNAME:-user}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD:-password}
+    ports:
+      - 3306:3306
