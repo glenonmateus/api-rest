@@ -1,0 +1,12 @@
+services:
+  api:
+    build:
+      context: ../../../api-rest/
+      dockerfile: Dockerfile
+      args:
+        NODE_VERSION: ${NODE_VERSION:-24}
+        PORT: ${PORT:-3001}
+    environment:
+      PORT: ${PORT:-3001}
+    ports:
+      - ${PORT:-3001}:${PORT:-3001}
