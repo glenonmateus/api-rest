@@ -1,0 +1,4 @@
+.git*
+hurl/
+README.md
+.env
