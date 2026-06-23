@@ -6,7 +6,7 @@ class UserController {
       const users = await User.findAll();
       return res.json(users);
     } catch (error) {
-      return res.json(null);
+      return res.status(400).json(null);
     }
   }
 
@@ -27,29 +27,37 @@ class UserController {
       const user = await User.findByPk(id);
       return res.json(user);
     } catch (error) {
-      return res.json(null);
+      return res.status(400).json(null);
     }
   }
 
   async delete(req, res) {
     try {
-      const user = await User.destroy({ where: { id: req.params.id } });
-      return res.json(user);
+      const { id } = req.params;
+      const user = await User.findByPk(id);
+      if (!user) return res.status(404).json({ errors: ["User not found"] });
+      await user.destroy();
+      return res.json(null);
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: "Error deleting user" });
+      return res.status(400).json(null);
     }
   }
 
   async update(req, res) {
     try {
-      await User.update(req.body, {
-        where: { id: req.params.id },
-      });
-      const user = await User.findByPk(req.params.id);
-      return res.json(user);
+      const { id } = req.params;
+      const user = await User.findByPk(id);
+
+      if (!user) return res.status(404).json({ errors: ["User not found"] });
+
+      await user.update(req.body);
+
+      return res.json(await User.findByPk(id));
     } catch (error) {
       console.error(error);
+      return res
+        .status(400)
+        .json({ errors: error.errors.map((e) => e.message) });
     }
   }
 }
