@@ -9,19 +9,26 @@ class User extends Model {
           type: Sequelize.STRING,
           defaultValue: "",
           validate: {
-            len: [3, 255],
+            len: {
+              args: [3, 255],
+              msg: "Name must be between 3 and 255 characters",
+            },
           },
         },
         surname: {
           type: Sequelize.STRING,
           defaultValue: "",
           validate: {
-            len: [3, 255],
+            len: {
+              args: [3, 255],
+              msg: "Surname must be between 3 and 255 characters",
+            },
           },
         },
         email: {
           type: Sequelize.STRING,
           defaultValue: "",
+          unique: { msg: "Email already exists" },
           validate: {
             isEmail: {
               msg: "Email is invalid",
@@ -33,7 +40,10 @@ class User extends Model {
           type: Sequelize.VIRTUAL,
           defaultValue: "",
           validate: {
-            len: [6, 50],
+            len: {
+              args: [6, 50],
+              msg: "Password must be between 6 and 50 characters",
+            },
           },
         },
       },
