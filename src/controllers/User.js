@@ -2,17 +2,33 @@ import User from "../models/User.js";
 
 class UserController {
   async index(req, res) {
-    return res.json(await User.findAll());
+    try {
+      const users = await User.findAll();
+      return res.json(users);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error getting users" });
+    }
   }
 
   async store(req, res) {
-    const user = await User.create({
-      name: "Glenon",
-      surname: "Mateus",
-      email: "glenonmateus+001@gmail.com",
-      password: "0123456789",
-    });
-    return res.json(user);
+    try {
+      const user = await User.create(req.body);
+      return res.json(user);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Error creating user" });
+    }
+  }
+
+  async show(req, res) {
+    try {
+      const user = await User.findByPk(req.params.id);
+      return res.json(user);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Error getting user" });
+    }
   }
 }
 
