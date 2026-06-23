@@ -40,6 +40,18 @@ class UserController {
       return res.status(500).json({ error: "Error deleting user" });
     }
   }
+
+  async update(req, res) {
+    try {
+      await User.update(req.body, {
+        where: { id: req.params.id },
+      });
+      const user = await User.findByPk(req.params.id);
+      return res.json(user);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 export default new UserController();
