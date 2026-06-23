@@ -16,7 +16,9 @@ class UserController {
       const user = await User.create(req.body);
       return res.json(user);
     } catch (error) {
-      return res.status(400).json(error.errors.map((e) => e.message));
+      return res
+        .status(400)
+        .json({ errors: error.errors.map((e) => e.message) });
     }
   }
 
