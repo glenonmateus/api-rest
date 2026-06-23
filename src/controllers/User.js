@@ -6,8 +6,7 @@ class UserController {
       const users = await User.findAll();
       return res.json(users);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error getting users" });
+      return res.json(null);
     }
   }
 
