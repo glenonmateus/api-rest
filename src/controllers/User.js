@@ -30,6 +30,16 @@ class UserController {
       return res.status(500).json({ error: "Error getting user" });
     }
   }
+
+  async delete(req, res) {
+    try {
+      const user = await User.destroy({ where: { id: req.params.id } });
+      return res.json(user);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Error deleting user" });
+    }
+  }
 }
 
 export default new UserController();
