@@ -30,9 +30,8 @@ class StudentController {
 
   async update(req, res) {
     try {
-      return res.json(
-        await Student.update(req.body, { where: { id: req.params.id } }),
-      );
+      await Student.update(req.body, { where: { id: req.params.id } });
+      return res.json(await Student.findByPk(req.params.id));
     } catch (error) {
       console.error(error);
       return res.status(400).json(null);
