@@ -7,12 +7,12 @@ POST {{uri}}/users/store
 }
 HTTP 200
 [Captures]
-email: jsonpath "$['email']"
+user_email: jsonpath "$['email']"
 user_id: jsonpath "$['id']"
 
 POST {{uri}}/tokens
 {
-    "email": "{{email}}",
+    "email": "{{user_email}}",
     "password": "0123456789"
 }
 HTTP 200
