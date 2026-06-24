@@ -3,33 +3,50 @@ import Student from "../models/Student.js";
 class StudentController {
   async index(req, res) {
     try {
-      const students = await Student.findAll();
-      return res.json(students);
+      return res.json(await Student.findAll());
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ error: "Error getting students" });
+      return res.status(500).json(null);
     }
   }
 
   async store(req, res) {
     try {
-      const student = await Student.create(req.body);
-      return res.json(student);
+      return res.json(await Student.create(req.body));
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ error: "Error creating student" });
+      return res.status(500).json(null);
     }
   }
 
   async show(req, res) {
     try {
-      const student = await Student.findByPk(req.params.id);
-      if (!student) {
-        return res.status(401).json({ error: "Student not found" });
-      }
-      return res.json(student);
+      return res.json(await Student.findByPk(req.params.id));
     } catch (error) {
       console.error(error);
+      return res.status(500).json(null);
+    }
+  }
+
+  async update(req, res) {
+    try {
+      return res.json(
+        await Student.update(req.body, { where: { id: req.params.id } }),
+      );
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json(null);
+    }
+  }
+
+  async delete(req, res) {
+    try {
+      return res.json(await Student.destroy({ where: { id: req.params.id } }));
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(400)
+        .json({ errors: error.errors.map((e) => e.message) });
     }
   }
 }
