@@ -38,5 +38,12 @@ PUT {{uri}}/students/{{student_id}}
 }
 HTTP 200
 
+PUT {{uri}}/students/1000
+{
+  "name": "{{newUuid}}",
+  "age": 30
+}
+HTTP 200
+
 DELETE {{uri}}/students/{{student_id}}
 HTTP 200
