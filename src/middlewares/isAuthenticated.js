@@ -1,12 +1,3 @@
-/*
-TODO:
-* Criar um middleware para verificar se o usuário esta autenticado
-* - receber o token bearer via header authorization
-* - verificar se o token enviado é válido
-* -- sendo válido devolver a resposta da requisição
-* -- sendo inválido devolver o erro 401
-*/
-
 import jwt from "jsonwebtoken";
 
 export default (req, res, next) => {
