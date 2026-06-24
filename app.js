@@ -1,5 +1,5 @@
 import express from "express";
-import { router as homeRouter } from "./src/routes/home.js";
+import { router as tokenRouter } from "./src/routes/token.js";
 import { router as userRouter } from "./src/routes/user.js";
 import { router as studentRouter } from "./src/routes/student.js";
 import morgan from "morgan";
@@ -19,7 +19,7 @@ class App {
   }
 
   routes() {
-    this.app.use(homeRouter);
+    this.app.use(tokenRouter);
     this.app.use(userRouter);
     this.app.use(studentRouter);
   }
