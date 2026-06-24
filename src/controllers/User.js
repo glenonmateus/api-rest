@@ -3,18 +3,18 @@ import User from "../models/User.js";
 class UserController {
   async index(req, res) {
     try {
-      const users = await User.findAll();
-      return res.json(users);
+      return res.json(await User.findAll());
     } catch (error) {
+      console.error(error);
       return res.status(400).json(null);
     }
   }
 
   async store(req, res) {
     try {
-      const user = await User.create(req.body);
-      return res.json(user);
+      return res.json(await User.create(req.body));
     } catch (error) {
+      console.error(error);
       return res
         .status(400)
         .json({ errors: error.errors.map((e) => e.message) });
@@ -23,36 +23,31 @@ class UserController {
 
   async show(req, res) {
     try {
-      const { id } = req.params;
-      const user = await User.findByPk(id);
-      return res.json(user);
+      return res.json(await User.findByPk(req.params.id));
     } catch (error) {
-      return res.status(400).json(null);
+      console.error(error);
+      return res
+        .status(400)
+        .json({ errors: error.errors.map((e) => e.message) });
     }
   }
 
   async delete(req, res) {
     try {
-      const { id } = req.params;
-      const user = await User.findByPk(id);
-      if (!user) return res.status(404).json({ errors: ["User not found"] });
-      await user.destroy();
-      return res.json(null);
+      return res.json(await User.destroy({ where: { id: req.params.id } }));
     } catch (error) {
-      return res.status(400).json(null);
+      console.error(error);
+      return res
+        .status(400)
+        .json({ errors: error.errors.map((e) => e.message) });
     }
   }
 
   async update(req, res) {
     try {
-      const { id } = req.params;
-      const user = await User.findByPk(id);
-
-      if (!user) return res.status(404).json({ errors: ["User not found"] });
-
-      await user.update(req.body);
-
-      return res.json(await User.findByPk(id));
+      return res.json(
+        await User.update(req.body, { where: { id: req.params.id } }),
+      );
     } catch (error) {
       console.error(error);
       return res
