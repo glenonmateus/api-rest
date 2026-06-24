@@ -8,6 +8,18 @@ POST {{uri}}/users/store
 HTTP 200
 [Captures]
 user_id: jsonpath "$['id']"
+user_email: jsonpath "$['email']"
+
+POST {{uri}}/users/store
+{
+  "name":"{{newUuid}}",
+  "surname": "{{newUuid}}",
+  "email": "{{user_email}}",
+  "password": "0123456789"
+}
+HTTP 400
+[Asserts]
+jsonpath "$.errors[0]" contains "Email already exists"
 
 GET {{uri}}/users
 HTTP 200
