@@ -9,13 +9,16 @@ HTTP 200
 [Captures]
 user_email: jsonpath "$['email']"
 user_id: jsonpath "$['id']"
+user_password: jsonpath "$['password']"
 
 POST {{uri}}/tokens
 {
     "email": "{{user_email}}",
-    "password": "0123456789"
+    "password": "{{user_password}}"
 }
 HTTP 200
+[Captures]
+access_token: jsonpath "$['access_token']"
 [Asserts]
 jsonpath "$.access_token" exists
 
