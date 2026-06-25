@@ -9,3 +9,10 @@ services:
       MARIADB_PASSWORD: ${DATABASE_PASSWORD:-password}
     ports:
       - 3306:3306
+    volumes:
+      - type: volume
+        source: database
+        target: /var/lib/mysql
+
+volumes:
+  database:
