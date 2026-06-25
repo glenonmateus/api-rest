@@ -34,12 +34,15 @@ class UserController {
 
   delete = async (req, res) => {
     try {
-      return res.json(await User.destroy({ where: { id: req.params.id } }));
+      const user = await User.destroy({
+        where: { id: req.params.id, email: req.userEmail },
+      });
+      if (!user)
+        return res.status(401).json({ errors: ["Deleted not allowed"] });
+      return res.json(null);
     } catch (error) {
       console.error(error);
-      return res
-        .status(400)
-        .json({ errors: error.errors.map((e) => e.message) });
+      return res.status(400).json(null);
     }
   };
 
