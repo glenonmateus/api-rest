@@ -1,9 +1,27 @@
 import Student from "../models/Student.js";
+import Foto from "../models/Photo.js";
 
 class StudentController {
   index = async (req, res) => {
     try {
-      return res.json(await Student.findAll());
+      return res.json(
+        await Student.findAll({
+          attributes: [
+            "id",
+            "name",
+            "surname",
+            "email",
+            "age",
+            "weight",
+            "height",
+          ],
+          order: [
+            ["id", "DESC"],
+            [Foto, "id", "DESC"],
+          ],
+          include: { model: Foto, attributes: ["filename"] },
+        }),
+      );
     } catch (error) {
       console.error(error);
       return res.status(500).json(null);
@@ -23,7 +41,19 @@ class StudentController {
 
   show = async (req, res) => {
     try {
-      const student = await Student.findByPk(req.params.id);
+      const student = await Student.findByPk(req.params.id, {
+        attributes: [
+          "id",
+          "name",
+          "surname",
+          "email",
+          "age",
+          "weight",
+          "height",
+        ],
+        order: [[Foto, "id", "DESC"]],
+        include: { model: Foto, attributes: ["filename"] },
+      });
       if (!student) return res.status(404).json(null);
       return res.json(student);
     } catch (error) {
@@ -39,7 +69,21 @@ class StudentController {
         where: { id },
       });
       if (!student[0]) return res.status(404).json(null);
-      return res.json(await Student.findByPk(id));
+      return res.json(
+        await Student.findByPk(id, {
+          attributes: [
+            "id",
+            "name",
+            "surname",
+            "email",
+            "age",
+            "weight",
+            "height",
+          ],
+          order: [[Foto, "id", "DESC"]],
+          include: { model: Foto, attributes: ["filename"] },
+        }),
+      );
     } catch (error) {
       console.error(error);
       return res.status(400).json(null);
