@@ -15,13 +15,17 @@ class StudentController {
       return res.json(await Student.create(req.body));
     } catch (error) {
       console.error(error);
-      return res.status(500).json(null);
+      return res
+        .status(400)
+        .json({ errors: error.errors.map((e) => e.message) });
     }
   };
 
   show = async (req, res) => {
     try {
-      return res.json(await Student.findByPk(req.params.id));
+      const student = await Student.findByPk(req.params.id);
+      if (!student) return res.status(404).json(null);
+      return res.json(student);
     } catch (error) {
       console.error(error);
       return res.status(500).json(null);
@@ -30,11 +34,12 @@ class StudentController {
 
   update = async (req, res) => {
     try {
+      const { id } = req.params;
       const student = await Student.update(req.body, {
-        where: { id: req.params.id },
+        where: { id },
       });
       if (!student[0]) return res.status(404).json(null);
-      return res.json(await Student.findByPk(req.params.id));
+      return res.json(await Student.findByPk(id));
     } catch (error) {
       console.error(error);
       return res.status(400).json(null);
@@ -43,7 +48,10 @@ class StudentController {
 
   delete = async (req, res) => {
     try {
-      return res.json(await Student.destroy({ where: { id: req.params.id } }));
+      const { id } = req.params;
+      const student = await Student.destroy({ where: { id } });
+      if (!student) return res.status(404).json(null);
+      return res.json(null);
     } catch (error) {
       console.error(error);
       return res
