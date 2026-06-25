@@ -48,5 +48,21 @@ Authorization: Bearer {{access_token}}
 }
 HTTP 200
 
+POST {{uri}}/users/store
+{
+  "name":"{{newUuid}}",
+  "surname": "{{newUuid}}",
+  "email": "{{newUuid}}@test.com",
+  "password": "0123456789"
+}
+HTTP 200
+[Captures]
+id: jsonpath "$['id']"
+
+DELETE {{uri}}/users/{{id}}
+Authorization: Bearer {{access_token}}
+HTTP 401
+
 DELETE {{uri}}/users/{{user_id}}
+Authorization: Bearer {{access_token}}
 HTTP 200
