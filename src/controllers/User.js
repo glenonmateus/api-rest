@@ -45,14 +45,16 @@ class UserController {
 
   update = async (req, res) => {
     try {
-      return res.json(
-        await User.update(req.body, { where: { id: req.params.id } }),
-      );
+      const user = await User.update(req.body, {
+        where: { id: req.params.id, email: req.userEmail },
+      });
+      if (!user[0]) {
+        return res.status(401).json({ errors: ["Updated not allowed"] });
+      }
+      return res.json(null);
     } catch (error) {
       console.error(error);
-      return res
-        .status(400)
-        .json({ errors: error.errors.map((e) => e.message) });
+      return res.status(500).json(null);
     }
   };
 }
