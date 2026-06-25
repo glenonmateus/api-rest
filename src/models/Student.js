@@ -4,12 +4,46 @@ class Student extends Model {
   static init(sequelize) {
     super.init(
       {
-        name: Sequelize.STRING,
-        surname: Sequelize.STRING,
-        email: Sequelize.STRING,
-        age: Sequelize.INTEGER,
-        weight: Sequelize.FLOAT,
-        height: Sequelize.FLOAT,
+        name: {
+          type: Sequelize.STRING,
+          defaultValue: "",
+          validate: {
+            len: {
+              args: [3, 255],
+              msg: "Name must be between 3 and 255 characters",
+            },
+          },
+        },
+        surname: {
+          type: Sequelize.STRING,
+          defaultValue: "",
+          validate: {
+            len: {
+              args: [3, 255],
+              msg: "Surname must be between 3 and 255 characters",
+            },
+          },
+        },
+        email: {
+          type: Sequelize.STRING,
+          defaultValue: "",
+          validate: { isEmail: { msg: "Email is invalid" } },
+        },
+        age: {
+          type: Sequelize.INTEGER,
+          defaultValue: 0,
+          validate: { isInt: { msg: "Age must be an integer" } },
+        },
+        weight: {
+          type: Sequelize.FLOAT,
+          defaultValue: 0,
+          validate: { isFloat: { msg: "Weight must be a float" } },
+        },
+        height: {
+          type: Sequelize.FLOAT,
+          defaultValue: 0,
+          validate: { isFloat: { msg: "Height must be a float" } },
+        },
       },
       { sequelize },
     );
