@@ -5,10 +5,11 @@ class TokenController {
   store = async (req, res) => {
     try {
       const { email, password } = req.body;
-      if (!(await this.isValidCredentials(email, password))) {
+      const user = await User.findOne({ where: { email } });
+      if (!(await this.isValidCredentials(user, password))) {
         return res.status(401).json({ errors: ["Invalid credentials"] });
       }
-      return res.json({ access_token: this.generateToken(email) });
+      return res.json({ access_token: this.generateToken(user.id, email) });
     } catch (error) {
       console.error(error);
       return res
@@ -17,17 +18,16 @@ class TokenController {
     }
   };
 
-  isValidCredentials = async (email, password) => {
+  isValidCredentials = async (user, password) => {
     try {
-      const user = await User.findOne({ where: { email } });
       return user || (await user.isValidPassword(password));
     } catch (error) {
       console.error(error);
     }
   };
 
-  generateToken = (email) => {
-    return jwt.sign({ email }, process.env.JWT_TOKEN_SECRET, {
+  generateToken = (id, email) => {
+    return jwt.sign({ id, email }, process.env.JWT_TOKEN_SECRET, {
       expiresIn: process.env.JWT_TOKEN_EXPIRATION,
     });
   };
