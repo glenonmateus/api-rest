@@ -9,8 +9,8 @@ POST {{uri}}/students/store
 }
 HTTP 200
 [Captures]
-email: jsonpath "$['email']"
-student_id: jsonpath "$['id']"
+student_email1: jsonpath "$['email']"
+student_id1: jsonpath "$['id']"
 
 POST {{uri}}/students/store
 {
@@ -22,28 +22,50 @@ POST {{uri}}/students/store
   "height": 1.80
 }
 HTTP 200
+[Captures]
+student_email2: jsonpath "$['email']"
+student_id2: jsonpath "$['id']"
+
+POST {{uri}}/students/store
+{
+  "name": "{{newUuid}}",
+  "surname": "{{newUuid}}",
+  "email": "{{student_email1}}",
+  "age": 20,
+  "weight": 100,
+  "height": 1.80
+}
+HTTP 400
+[Asserts]
+jsonpath "$.errors[0]" contains "Email already exists"
 
 GET {{uri}}/students
 HTTP 200
 [Asserts]
 jsonpath "$.*" count > 0
 
-GET {{uri}}/students/{{student_id}}
+GET {{uri}}/students/{{student_id1}}
 HTTP 200
 
-PUT {{uri}}/students/{{student_id}}
+PUT {{uri}}/students/{{student_id1}}
 {
   "name": "{{newUuid}}",
   "age": 30
 }
 HTTP 200
 
-PUT {{uri}}/students/1000
+PUT {{uri}}/students/{{newUuid}}
 {
   "name": "{{newUuid}}",
   "age": 30
 }
+HTTP 404
+
+DELETE {{uri}}/students/{{newUuid}}
+HTTP 404
+
+DELETE {{uri}}/students/{{student_id1}}
 HTTP 200
 
-DELETE {{uri}}/students/{{student_id}}
+DELETE {{uri}}/students/{{student_id2}}
 HTTP 200
