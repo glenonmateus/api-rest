@@ -30,7 +30,10 @@ class StudentController {
 
   update = async (req, res) => {
     try {
-      await Student.update(req.body, { where: { id: req.params.id } });
+      const student = await Student.update(req.body, {
+        where: { id: req.params.id },
+      });
+      if (!student[0]) return res.status(404).json(null);
       return res.json(await Student.findByPk(req.params.id));
     } catch (error) {
       console.error(error);
