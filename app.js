@@ -5,6 +5,7 @@ import { router as photoRouter } from "./src/routes/Photo.js";
 import { router as studentRouter } from "./src/routes/student.js";
 import { router as tokenRouter } from "./src/routes/token.js";
 import { router as userRouter } from "./src/routes/user.js";
+import { resolve } from "path";
 
 class App {
   constructor() {
@@ -16,6 +17,7 @@ class App {
   middlewares() {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
+    this.app.use(express.static(resolve(import.meta.dirname, "uploads")));
     this.app.use(morgan("dev"));
   }
 
