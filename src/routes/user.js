@@ -4,10 +4,8 @@ import isAuthenticated from "../middlewares/isAuthenticated.js";
 
 const router = new Router();
 
-router.get("/users", isAuthenticated, UserController.index);
 router.post("/users/store", UserController.store);
-router.get("/users/:id", UserController.show);
-router.delete("/users/:id", isAuthenticated, UserController.delete);
-router.put("/users/:id", isAuthenticated, UserController.update);
+router.put("/users", isAuthenticated, UserController.update);
+router.delete("/users", isAuthenticated, UserController.delete);
 
 export { router };
