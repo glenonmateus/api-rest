@@ -122,3 +122,7 @@ HTTP 200
 DELETE {{uri}}/students/{{student_id2}}
 Authorization: Bearer {{access_token}}
 HTTP 200
+
+DELETE {{uri}}/users
+Authorization: Bearer {{access_token}}
+HTTP 200
