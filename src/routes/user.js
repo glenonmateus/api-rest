@@ -7,7 +7,7 @@ const router = new Router();
 router.get("/users", isAuthenticated, UserController.index);
 router.post("/users/store", UserController.store);
 router.get("/users/:id", UserController.show);
-router.delete("/users/:id", UserController.delete);
+router.delete("/users/:id", isAuthenticated, UserController.delete);
 router.put("/users/:id", isAuthenticated, UserController.update);
 
 export { router };
