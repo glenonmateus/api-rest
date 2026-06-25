@@ -19,7 +19,7 @@ class StudentController {
             ["id", "DESC"],
             [Foto, "id", "DESC"],
           ],
-          include: { model: Foto, attributes: ["filename"] },
+          include: { model: Foto, attributes: ["url", "filename"] },
         }),
       );
     } catch (error) {
@@ -52,7 +52,7 @@ class StudentController {
           "height",
         ],
         order: [[Foto, "id", "DESC"]],
-        include: { model: Foto, attributes: ["filename"] },
+        include: { model: Foto, attributes: ["url", "filename"] },
       });
       if (!student) return res.status(404).json(null);
       return res.json(student);
@@ -81,7 +81,7 @@ class StudentController {
             "height",
           ],
           order: [[Foto, "id", "DESC"]],
-          include: { model: Foto, attributes: ["filename"] },
+          include: { model: Foto, attributes: ["url", "filename"] },
         }),
       );
     } catch (error) {
