@@ -27,6 +27,7 @@ class Student extends Model {
         email: {
           type: Sequelize.STRING,
           defaultValue: "",
+          unique: { msg: "Email already exists" },
           validate: { isEmail: { msg: "Email is invalid" } },
         },
         age: {
