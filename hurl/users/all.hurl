@@ -33,20 +33,24 @@ access_token: jsonpath "$['access_token']"
 [Asserts]
 jsonpath "$.access_token" exists
 
-GET {{uri}}/users
-Authorization: Bearer {{access_token}}
-HTTP 200
-
-GET {{uri}}/users/{{user_id}}
-HTTP 200
-
-PUT {{uri}}/users/{{user_id}}
+PUT {{uri}}/users
 Authorization: Bearer {{access_token}}
 {
   "name":"{{newUuid}}",
-  "password": "0123456789"
+  "email": "{{user_email}}.br"
 }
 HTTP 200
+
+POST {{uri}}/tokens
+{
+  "email": "{{user_email}}.br",
+  "password": "{{user_password}}"
+}
+HTTP 200
+[Captures]
+access_token: jsonpath "$['access_token']"
+[Asserts]
+jsonpath "$.access_token" exists
 
 POST {{uri}}/users/store
 {
@@ -58,11 +62,24 @@ POST {{uri}}/users/store
 HTTP 200
 [Captures]
 id: jsonpath "$['id']"
+email: jsonpath "$['email']"
+password: jsonpath "$['password']"
 
-DELETE {{uri}}/users/{{id}}
-Authorization: Bearer {{access_token}}
-HTTP 401
+POST {{uri}}/tokens
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+HTTP 200
+[Captures]
+token: jsonpath "$['access_token']"
+[Asserts]
+jsonpath "$.access_token" exists
 
-DELETE {{uri}}/users/{{user_id}}
+DELETE {{uri}}/users
+Authorization: Bearer {{token}}
+HTTP 200
+
+DELETE {{uri}}/users
 Authorization: Bearer {{access_token}}
 HTTP 200
