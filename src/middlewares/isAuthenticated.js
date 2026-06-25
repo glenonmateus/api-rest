@@ -4,7 +4,7 @@ import User from "../models/User.js";
 export default async (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization) {
-    res.status(401).json({ errors: ["Login required"] });
+    return res.status(401).json({ errors: ["Login required"] });
   }
   const token = authorization.split(" ")[1];
   try {
