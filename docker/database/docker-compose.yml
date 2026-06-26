@@ -13,6 +13,12 @@ services:
       - type: volume
         source: database
         target: /var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
 
 volumes:
   database:
