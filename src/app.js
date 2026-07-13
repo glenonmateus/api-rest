@@ -6,6 +6,7 @@ import { router as photoRouter } from "./routes/Photo.js";
 import { router as studentRouter } from "./routes/student.js";
 import { router as tokenRouter } from "./routes/token.js";
 import { router as userRouter } from "./routes/user.js";
+import cors from 'cors'
 
 class App {
   constructor() {
@@ -19,6 +20,7 @@ class App {
     this.app.use(express.json());
     this.app.use(express.static(resolve(import.meta.dirname, "uploads")));
     this.app.use(morgan("dev"));
+    this.app.use(cors({ origin: "http://localhost:3000" }))
   }
 
   routes() {
