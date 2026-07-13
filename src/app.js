@@ -1,11 +1,11 @@
 import express from "express";
 import morgan from "morgan";
-import "./src/database/index.js";
-import { router as photoRouter } from "./src/routes/Photo.js";
-import { router as studentRouter } from "./src/routes/student.js";
-import { router as tokenRouter } from "./src/routes/token.js";
-import { router as userRouter } from "./src/routes/user.js";
 import { resolve } from "path";
+import "./database/index.js";
+import { router as photoRouter } from "./routes/Photo.js";
+import { router as studentRouter } from "./routes/student.js";
+import { router as tokenRouter } from "./routes/token.js";
+import { router as userRouter } from "./routes/user.js";
 
 class App {
   constructor() {
