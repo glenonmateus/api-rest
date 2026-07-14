@@ -20,7 +20,7 @@ class TokenController {
 
   isValidCredentials = async (user, password) => {
     try {
-      return user || (await user.isValidPassword(password));
+      return user && (await user.isValidPassword(password));
     } catch (error) {
       console.error(error);
     }
