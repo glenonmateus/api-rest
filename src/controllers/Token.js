@@ -9,7 +9,7 @@ class TokenController {
       if (!(await this.isValidCredentials(user, password))) {
         return res.status(401).json({ errors: ["Invalid credentials"] });
       }
-      return res.json({ access_token: this.generateToken(user.id, email) });
+      return res.json({ id: user.id, email, access_token: this.generateToken(user.id, email) });
     } catch (error) {
       console.error(error);
       return res
