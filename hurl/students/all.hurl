@@ -78,6 +78,10 @@ HTTP 400
 jsonpath "$.errors[0]" contains "Email already exists"
 
 GET {{uri}}/students
+HTTP 401
+
+GET {{uri}}/students
+Authorization: Bearer {{access_token}}
 HTTP 200
 [Asserts]
 jsonpath "$.*" count > 0
