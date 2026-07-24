@@ -19,7 +19,7 @@ class App {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(express.static(resolve(import.meta.dirname, "uploads")));
-    this.app.use(morgan("dev"));
+    this.app.use(morgan("combined"));
     this.app.use(cors({ origin: "http://localhost:3000" }))
   }
 
